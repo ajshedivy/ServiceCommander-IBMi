@@ -231,6 +231,20 @@ public class ServiceCommander {
                 } catch (final Exception e) {
                     logger.printfln_warn("WARNING: Value specified for sample time argument is not valid: %s", remainingArg);
                 }
+            } else if (remainingArg.startsWith("--color-scheme=")) {
+                String colorSettings[] = remainingArg.replaceAll(".*=", "").split("\\s*, \\s*");
+                for (String kv : colorSettings) {
+                    try {
+                        String[] _settings = kv.split(":");
+                        String context = _settings[0].toUpperCase();
+                        String color = _settings[1].toUpperCase();
+                        ColorSchemeConfig.updateColor(context, color);
+                    } catch (Exception e) {
+                        logger.printf_warn("WARNING: something went wrong with color-scheme configuration: %s", remainingArg);
+                    }
+                }
+
+
             } else if (remainingArg.startsWith("-")) {
                 logger.printfln_warn("WARNING: Argument '%s' unrecognized and will be ignored", remainingArg);
             } else {
